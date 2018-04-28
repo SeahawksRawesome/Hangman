@@ -1,3 +1,4 @@
+import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -13,6 +14,11 @@ import javax.swing.JPanel;
 
 public class Hangman {
 
+	int lives = 10;
+	String word = "";
+	int x1 = 200;
+	int y1 = 200;
+	
 	public static void main(String[] args) {
 		Stack<String> wordStack = new Stack<String>();
 		ArrayList<String> words = new ArrayList<String>();
@@ -21,8 +27,11 @@ public class Hangman {
 		int wordAmount = Integer.parseInt(numsParse);
 		String fileContent = "";
 		String line = "";
-		int Lives = 10;
-		String word = "";
+		
+		
+		Hangman hangmanGUI = new Hangman();
+		
+		
 		
 		for (int i = 0; i < wordAmount; i++) {
 			try {
@@ -47,18 +56,43 @@ public class Hangman {
 			}
 
 		}
-		Hangman GUI = new Hangman();
+		
 	}
-	void GUI(){
+	 Hangman(){
+		//System.out.println("hi");
 		JFrame f1 = new JFrame();
 		JPanel p1 = new JPanel();
 		JLabel GuessWord = new JLabel();
 		JLabel word = new JLabel();
 		JLabel Lives = new JLabel();
+		f1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		JLabel displayTitle = new JLabel();
+
+		Dimension d = new Dimension(100,40);
+		Dimension d2 = new Dimension(100,500);
+		displayTitle.setText("|| Hangman ||");
+		//displayTitle.setSize(x1, y1);
+		displayTitle.setLocation(200, 400);
+		f1.setPreferredSize(d2);
+		p1.setPreferredSize(d2);
+		displayTitle.setPreferredSize(d);
+		
+		Lives.setText("     Lives: " + lives);
+		Lives.setPreferredSize(d);
 		
 		f1.add(p1);
 		p1.add(Lives);
 		p1.add(word);
 		p1.add(GuessWord);
+		p1.add(displayTitle);
+		f1.setVisible(true);
+	//	p1.setVisible(true);
+		//p1.setVisible(true);
+		
+		f1.pack();
+		System.out.println("hi");
+		
+		
+		
 	}
 }
