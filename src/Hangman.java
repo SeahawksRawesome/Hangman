@@ -1,6 +1,7 @@
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -96,7 +97,7 @@ public class Hangman implements KeyListener {
 		}
 
 		ChosenWord = wordStack.pop();
-		
+
 		for (int i = 0; i < ChosenWord.length(); i++) {
 			DisplayWord += "_";
 			// ChosenWord.charAt(i);
@@ -108,21 +109,40 @@ public class Hangman implements KeyListener {
 	@Override
 	public void keyTyped(KeyEvent e) {
 		if (ChosenWord.contains("" + e.getKeyChar())) {
-			//New Display Word
+			// New Display Word
 			String emptyBoi = "";
+			// String equalBoi = "";
+			String tempString = "";
+			String succesfulLetters = "";
 			for (int i = 0; i < DisplayWord.length(); i++) {
-				if (e.getKeyChar() == ChosenWord.charAt(i)) {
-						
-				} else {
 
+				if (e.getKeyChar() == ChosenWord.charAt(i)) {
+
+					emptyBoi += ChosenWord.charAt(i);
+
+					// equalBoi += ChosenWord.charAt(i);
+				} else {
+					emptyBoi += DisplayWord.charAt(i);
 				}
 
 			}
-
+			DisplayWord = emptyBoi;
+			word.setText(DisplayWord);
 		} else {
 			lives -= 1;
 			Lives.setText("     Lives: " + lives);
 		}
+		if(DisplayWord.length() == ChosenWord.length())  {
+			if (DisplayWord.equals(ChosenWord)) {
+				Reset(DisplayWord);
+			}
+		}
+		
+		if (lives == 0) {
+			f1.dispatchEvent(new WindowEvent(f1, WindowEvent.WINDOW_CLOSING));
+			// System.out.println("Yeet");
+		}
+
 	}
 
 	@Override
@@ -137,4 +157,15 @@ public class Hangman implements KeyListener {
 
 	}
 
+	public String Reset(String resetWord) {
+		int Length;
+		Length = DisplayWord.length();
+		DisplayWord = "";
+		
+		for (int i = 0; i < Length; i++) {
+			DisplayWord += "_";
+
+		}
+		return DisplayWord;
+	}
 }
