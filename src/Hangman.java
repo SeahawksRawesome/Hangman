@@ -27,11 +27,13 @@ public class Hangman implements KeyListener {
 	JLabel EncryptWord = new JLabel();
 	JLabel word = new JLabel();
 	JLabel Lives = new JLabel();
+	JLabel score = new JLabel();
 
 	JLabel displayTitle = new JLabel();
 	String DisplayWord = "";
 	String ChosenWord = "";
-
+	int scoreS = 0;
+	Stack<String> wordStack = new Stack<String>();
 	public static void main(String[] args) {
 
 		Hangman hangmanGUI = new Hangman();
@@ -39,7 +41,7 @@ public class Hangman implements KeyListener {
 	}
 
 	Hangman() {
-		Stack<String> wordStack = new Stack<String>();
+		 wordStack = new Stack<String>();
 		ArrayList<String> words = new ArrayList<String>();
 		Random wordChooser = new Random();
 		String numsParse = JOptionPane.showInputDialog("Pick A number, any number fo.");
@@ -59,6 +61,7 @@ public class Hangman implements KeyListener {
 		displayTitle.setPreferredSize(d);
 
 		Lives.setText("     Lives: " + lives);
+		score.setText("Words Solved: " + scoreS);
 		Lives.setPreferredSize(d);
 		f1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f1.add(p1);
@@ -66,12 +69,15 @@ public class Hangman implements KeyListener {
 		p1.add(word);
 		p1.add(EncryptWord);
 		p1.add(displayTitle);
+		p1.add(score);
 		f1.addKeyListener(this);
 		f1.setVisible(true);
 
 		f1.pack();
 		System.out.println("hi");
-
+		
+		
+		
 		for (int i = 0; i < wordAmount; i++) {
 			try {
 				BufferedReader dictionaryReader = new BufferedReader(new FileReader("src//dictionary.txt"));
@@ -102,9 +108,22 @@ public class Hangman implements KeyListener {
 			DisplayWord += "_";
 			// ChosenWord.charAt(i);
 		}
+		System.out.println(DisplayWord);
+		System.out.println(ChosenWord);
+		if(ChosenWord.equals(DisplayWord)) {
+			System.out.println("dasjkfhsgghdsvhgh");
+		}
+		
+ 
 		word.setText(DisplayWord);
 		System.out.println(ChosenWord);
+		
+		
+				
+		
+		
 	}
+	
 
 	@Override
 	public void keyTyped(KeyEvent e) {
@@ -132,12 +151,35 @@ public class Hangman implements KeyListener {
 			lives -= 1;
 			Lives.setText("     Lives: " + lives);
 		}
-		if(DisplayWord.length() == ChosenWord.length())  {
-			if (DisplayWord.equals(ChosenWord)) {
-				Reset(DisplayWord);
+			
+		System.out.println(DisplayWord);
+		System.out.println(ChosenWord);
+		if (DisplayWord.equals(ChosenWord)) {
+			lives = 10;
+			Lives.setText("     Lives: " + lives);
+			scoreS += 1;
+			score.setText("Words Solved: " + scoreS);
+			System.out.println("HIOIODAHIOASJ");
+			DisplayWord = "";
+			ChosenWord = wordStack.pop();
+			for (int i = 0; i < ChosenWord.length(); i++) {
+				DisplayWord += "_";
+				// ChosenWord.charAt(i);
+				
+				if(wordStack.size() == 0) {
+					JOptionPane.showMessageDialog(null, "Congrats, you solved all the words. Now go pity yourself because your so lonely you revert to playing Hangman by yourself");
+					f1.dispatchEvent(new WindowEvent(f1, WindowEvent.WINDOW_CLOSING));
+				}
 			}
+			
+
+			
+			word.setText(DisplayWord);
+			System.out.println(ChosenWord);
+		//	Reset(DisplayWord);
+			//System.out.println(DisplayWord);
+			//ChosenWord = wordStack.pop();
 		}
-		
 		if (lives == 0) {
 			f1.dispatchEvent(new WindowEvent(f1, WindowEvent.WINDOW_CLOSING));
 			// System.out.println("Yeet");
@@ -158,7 +200,7 @@ public class Hangman implements KeyListener {
 	}
 
 	public String Reset(String resetWord) {
-		int Length;
+		/*int Length;
 		Length = DisplayWord.length();
 		DisplayWord = "";
 		
@@ -166,6 +208,13 @@ public class Hangman implements KeyListener {
 			DisplayWord += "_";
 
 		}
+		return DisplayWord;
+		*/
+		String s = wordStack.pop();
+		System.out.println(s);
+		ChosenWord = s;
+		
+		
 		return DisplayWord;
 	}
 }
